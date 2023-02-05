@@ -16,7 +16,7 @@ class Config(object):
 
     API_ID = 6  # integer value, dont use ""
     API_HASH = "eb06d4abfb49dc3eeb1aeb98ae0f581e"
-    TOKEN = "5212174041:AAGbPP_gU-Ysb6zpaoQFPKJABLnGNAwIN4g"  # This var used to be API_KEY but it is now TOKEN, adjust accordingly.
+    TOKEN = "5221050210:AAHftIv-gEUBVG2y3g_Ngt7ewK5Mu0C6Sxc"  # This var used to be API_KEY but it is now TOKEN, adjust accordingly.
     OWNER_ID = 5001573230  # If you dont know, run the bot and do /id in your private chat with it, also an integer
     OWNER_USERNAME = "itzzz_axel"
     SUPPORT_CHAT = "Vexana_Support"  # Your own group for support, do not add the @
