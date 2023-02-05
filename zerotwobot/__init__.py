@@ -23,10 +23,10 @@ except:
 
 load_dotenv()
 
-try:
-    LOGGER_LEVEL = int(os.environ.get("LOGGER_LEVEL"))
-except:
-    LOGGER_LEVEL = int(Config.LOGGER_LEVEL)
+# try:
+#     LOGGER_LEVEL = int(os.environ.get("LOGGER_LEVEL"))
+# except:
+#     LOGGER_LEVEL = int(Config.LOGGER_LEVEL)
 
 StartTime = time.time()
 
