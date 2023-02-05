@@ -6,6 +6,11 @@ import time
 import asyncio
 import telegram.ext as tg
 import random
+import json
+from ptbcontrib.postgres_persistence import PostgresPersistence
+from inspect import getfullargspec
+from aiohttp import ClientSession
+from Python_ARQ import ARQ
 
 
 from telegram.ext import Application
@@ -36,8 +41,14 @@ logging.basicConfig(
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
     level=LOGGER_LEVEL,
 )
+logging.getLogger("pyrogram").setLevel(logging.INFO)
+logging.getLogger('ptbcontrib.postgres_persistence.postgrespersistence').setLevel(logging.WARNING)
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger('[zerotwobot]')
+LOGGER.info("Vexana is starting. | An Kennedy Project Parts. | Licensed under GPLv3.")
+LOGGER.info("Not affiliated to other anime or Villain in any way whatsoever.")
+LOGGER.info("Project maintained by: github.com/axel (t.me/itzzz_axel)")
+
 
 # if version < 3.9, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 9:
@@ -181,6 +192,55 @@ asyncio.get_event_loop().run_until_complete(application.bot.initialize())
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
+
+from pyrogram.types import Message
+from pyrogram import Client, errors
+from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
+from pyrogram.types import Chat, User
+
+
+pbot = Client(
+    ":memory:",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=TOKEN,
+    workers=min(32, os.cpu_count() + 4),
+)
+apps = []
+apps.append(pbot)
+loop = asyncio.get_event_loop()
+
+async def get_entity(client, entity):
+    entity_client = client
+    if not isinstance(entity, Chat):
+        try:
+            entity = int(entity)
+        except ValueError:
+            pass
+        except TypeError:
+            entity = entity.id
+        try:
+            entity = await client.get_chat(entity)
+        except (PeerIdInvalid, ChannelInvalid):
+            for kp in apps:
+                if kp != client:
+                    try:
+                        entity = await kp.get_chat(entity)
+                    except (PeerIdInvalid, ChannelInvalid):
+                        pass
+                    else:
+                        entity_client = kp
+                        break
+            else:
+                entity = await kp.get_chat(entity)
+                entity_client = kp
+    return entity, entity_client
+
+
+async def eor(msg: Message, **kwargs):
+    func = msg.edit_text if msg.from_user.is_self else msg.reply
+    spec = getfullargspec(func.__wrapped__).args
+    return await func(**{k: v for k, v in kwargs.items() if k in spec})
 
 
 # Load at end to ensure all prev variables have been set
