@@ -10,7 +10,7 @@ def get_user_list(config, key):
 # Create a new config.py or rename this to config.py file in same dir and import, then extend this class.
 class Config(object):
     LOGGER = True
-    LOGGER_LEVEL= "-1001744920557"
+    LOGGER_LEVEL= 1
     # REQUIRED
     # Login to https://my.telegram.org and fill in these slots with the details given by it
 
