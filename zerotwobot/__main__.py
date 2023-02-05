@@ -230,13 +230,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 caption=escape_markdown(f"""                
                 Hey There {first_name}. \
                 \nI'm {context.bot.first_name}, made specifically to manage your group and have more fun than ever. \
-                \nType /help to get available commands. \
-
-                \nVersion info: \
-                \nI'm running on v{BOT_VERSION} \
-                \nPython: {PYTHON_VERSION} \
-                \nPTB: {PTB_VERSION} \
-                \nBOT_API: {BOT_API_VERSION}"""),
+                \nType /help to get available commands."""),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
@@ -683,7 +677,7 @@ async def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
 
 async def send_alive(context: ContextTypes.DEFAULT_TYPE):
     try:
-        await context.bot.send_message(-1001765891293, random.choice(ALIVE_TEXT))
+        await context.bot.send_message(-1001553435601, random.choice(ALIVE_TEXT))
     except:
         await context.bot.send_message(OWNER_ID, "Can't send alive message to group")
         raise
@@ -691,7 +685,7 @@ async def send_alive(context: ContextTypes.DEFAULT_TYPE):
 def main():
 
     #send alive message to support chat once an hour
-    application.job_queue.run_repeating(send_alive, interval=3600, first=10)
+    application.job_queue.run_repeating(send_alive, interval=36000, first=10)
     
     start_handler = CommandHandler("start", start, block=False)
 
