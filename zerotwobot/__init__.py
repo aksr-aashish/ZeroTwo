@@ -176,18 +176,22 @@ ALIVE_TEXT = [
 
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 
-async def post_init(application: Application):
-    try:
-        await application.bot.sendMessage(-1001553435601, random.choice(ALIVE_TEXT))
-    except Forbidden:
-        LOGGER.warning(
-            "Bot isn't able to send message to support_chat, go and check!",
-        )
-    except BadRequest as e:
-        LOGGER.warning(e.message)
+# async def post_init(application: Application):
+#     try:
+#         await application.bot.sendMessage(-1001553435601, random.choice(ALIVE_TEXT))
+#     except Forbidden:
+#         LOGGER.warning(
+#             "Bot isn't able to send message to support_chat, go and check!",
+#         )
+#     except BadRequest as e:
+#         LOGGER.warning(e.message)
+#
+# application = Application.builder().token(TOKEN).post_init(post_init).build()
+# asyncio.get_event_loop().run_until_complete(application.bot.initialize())
 
-application = Application.builder().token(TOKEN).post_init(post_init).build()
-asyncio.get_event_loop().run_until_complete(application.bot.initialize())
+defaults = tg.Defaults(run_async=True)
+application = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
+dispatcher = application.dispatcher
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
