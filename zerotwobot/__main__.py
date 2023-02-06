@@ -22,7 +22,7 @@ from zerotwobot import (
     BOT_API_VERSION,
     application,
     StartTime,
-    telethn)
+    telethn,)
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
@@ -727,6 +727,8 @@ def main():
         telethn.disconnect()
     else:
         telethn.run_until_disconnected()
+
+        application.idle()
 
          
 if __name__ == "__main__":
