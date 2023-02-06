@@ -7,7 +7,6 @@ import asyncio
 import telegram.ext as tg
 import random
 import json
-from ptbcontrib.postgres_persistence import PostgresPersistence
 from inspect import getfullargspec
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
@@ -197,7 +196,13 @@ from pyrogram.types import Message
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
-
+ARQ_API_URL = "https://arq.hamker.in"
+ARQ_API_KEY = "ACJPHV-YPSKTU-TLDQPE-HMYUBU-ARQ"
+print("[INFO]: INITIALIZING AIOHTTP SESSION")
+aiohttpsession = ClientSession()
+# ARQ Client
+print("[INFO]: INITIALIZING ARQ CLIENT")
+arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
 pbot = Client(
     ":memory:",
