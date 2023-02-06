@@ -4,6 +4,7 @@ import time
 import re
 import random
 
+from pyrogram import idle
 from pyrogram.errors import Unauthorized
 
 from zerotwobot import (
@@ -738,3 +739,9 @@ if __name__ == "__main__":
     telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
+    try:
+        pbot.send_message(OWNER_ID, "Bot Started Sucessfully ✅")
+        print("Bot Started")
+    except:
+        print("Scanner not")
+        idle()
