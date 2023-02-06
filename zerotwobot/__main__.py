@@ -4,6 +4,8 @@ import time
 import re
 import random
 
+from pyrogram.errors import Unauthorized
+
 from zerotwobot import (
     ALIVE_TEXT,
     ALLOW_EXCL,
@@ -22,7 +24,8 @@ from zerotwobot import (
     BOT_API_VERSION,
     application,
     StartTime,
-    telethn,)
+    telethn,
+    pbot,)
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
@@ -655,7 +658,7 @@ async def donate(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
 
 
-async def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
+def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message  # type: Optional[Message]
     if msg.migrate_to_chat_id:
         old_chat = update.effective_chat.id
@@ -670,7 +673,6 @@ async def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
     for mod in MIGRATEABLE:
         with contextlib.suppress(KeyError, AttributeError):
             mod.__migrate__(old_chat, new_chat)
-
 
     LOGGER.info("Successfully migrated!")
     raise ApplicationHandlerStop
@@ -734,4 +736,5 @@ def main():
 if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
+    pbot.start()
     main()
